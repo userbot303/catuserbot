@@ -1,13 +1,16 @@
-# reverse search and google search  plugin for cat 
+# reverse search and google search  plugin for cat
 import os
 from datetime import datetime
 from re import findall
+
 import requests
 from bs4 import BeautifulSoup
-from search_engine_parser import GoogleSearch
-from ..utils import admin_cmd
-from . BOTLOG , BOTLOG_CHATID, CMD_HELP
 from googlesearch import search
+from search_engine_parser import GoogleSearch
+
+from ..utils import admin_cmd
+from .BOTLOG import BOTLOG_CHATID, CMD_HELP
+
 
 @borg.on(admin_cmd(outgoing=True, pattern=r"gs(?: |$)(\d*)? ?(.*)"))
 @borg.on(sudo_cmd(allow_sudo=True, pattern=r"gs(?: |$)(\d*)? ?(.*)"))
@@ -32,17 +35,16 @@ async def gsearch(event):
         lim = int(10)
     catresult = ""
     for url in search(query, stop=lim):
-        catresult  += f"👉{url}\n"
+        catresult += f"👉{url}\n"
     await catevent.edit(
-        "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catreply, link_preview=False
+        "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catreply,
+        link_preview=False,
     )
     if BOTLOG:
         await q_event.client.send_message(
             BOTLOG_CHATID,
             "Google Search query `" + query + "` was executed successfully",
         )
-    
-    
 
 
 """@borg.on(admin_cmd(outgoing=True, pattern=r"gs (.*)"))
@@ -78,14 +80,14 @@ async def gsearch(q_event):
 
 
 @borg.on(admin_cmd(pattern="grs$"))
-@borg.on(sudo_cmd(pattern="grs$",allow_sudo=True))
+@borg.on(sudo_cmd(pattern="grs$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
     start = datetime.now()
     OUTPUT_STR = "Reply to an image to do Google Reverse Search"
     if event.reply_to_msg_id:
-        catevent = await edit_or_reply(event , "Pre Processing Media")
+        catevent = await edit_or_reply(event, "Pre Processing Media")
         previous_message = await event.get_reply_message()
         previous_message_text = previous_message.message
         BASE_URL = "http://www.google.com"
@@ -135,6 +137,7 @@ async def _(event):
             **locals()
         )
     await catevent.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
+
 
 CMD_HELP.update(
     {
