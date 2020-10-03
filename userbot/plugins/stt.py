@@ -1,14 +1,11 @@
-"""Speech to Text
-Syntax: .stt <Language Code> as reply to a speech message"""
+#speech to text module for catuserbot by uniborg(@spechide)
 import os
 from datetime import datetime
-
 import requests
-
-from userbot.utils import admin_cmd
-
+from ..utils import admin_cmd,sudo_cmd, edit_or_reply
 
 @borg.on(admin_cmd(pattern="stt (.*)"))
+@borg.on(sudo_cmd(pattern="stt (.*)",allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -16,7 +13,7 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    await event.edit("Downloading to my local, for analysis 🙇")
+    catevent = await edit_or_reply(event , "Downloading to my local, for analysis  🙇")
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         required_file_name = await borg.download_media(
@@ -27,11 +24,11 @@ async def _(event):
             Config.IBM_WATSON_CRED_URL is None
             or Config.IBM_WATSON_CRED_PASSWORD is None
         ):
-            await event.edit(
+            await catevent.edit(
                 "You need to set the required ENV variables for this module. \nModule stopping"
             )
         else:
-            await event.edit("Starting analysis, using IBM WatSon Speech To Text")
+            await catevent.edit("Starting analysis, using IBM WatSon Speech To Text")
             headers = {
                 "Content-Type": previous_message.media.document.mime_type,
             }
@@ -57,17 +54,25 @@ async def _(event):
                 end = datetime.now()
                 ms = (end - start).seconds
                 if transcript_response != "":
-                    string_to_show = "Language: `{}`\nTRANSCRIPT: `{}`\nTime Taken: {} seconds\nConfidence: `{}`".format(
+                    string_to_show = "**Language : **`{}`\n**Transcript : **`{}`\n**Time Taken : **`{} seconds`\n**Confidence : **`{}`".format(
                         lan, transcript_response, ms, transcript_confidence
                     )
                 else:
-                    string_to_show = "Language: `{}`\nTime Taken: {} seconds\n**No Results Found**".format(
+                    string_to_show = "**Language : **`{}`\n**Time Taken : **`{} seconds`\n**No Results Found**".format(
                         lan, ms
                     )
-                await event.edit(string_to_show)
+                await catevent.edit(string_to_show)
             else:
-                await event.edit(r["error"])
+                await catevent.edit(r["error"])
             # now, remove the temporary file
             os.remove(required_file_name)
     else:
-        await event.edit("Reply to a voice message, to get the relevant transcript.")
+        await catevent.edit("Reply to a voice message, to get the relevant transcript.")
+
+CMD_HELP.update(
+    {
+        "stt": "**Plugin : **`stt`\
+    \n\n**Syntax :** `.stt en` reply this to voice message\
+    \n**Usage : **speech to text module"
+    }
+)        
