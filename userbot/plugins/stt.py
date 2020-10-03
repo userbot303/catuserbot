@@ -1,11 +1,14 @@
-#speech to text module for catuserbot by uniborg(@spechide)
+# speech to text module for catuserbot by uniborg(@spechide)
 import os
 from datetime import datetime
+
 import requests
-from ..utils import admin_cmd,sudo_cmd, edit_or_reply
+
+from ..utils import admin_cmd, edit_or_reply, sudo_cmd
+
 
 @borg.on(admin_cmd(pattern="stt (.*)"))
-@borg.on(sudo_cmd(pattern="stt (.*)",allow_sudo=True))
+@borg.on(sudo_cmd(pattern="stt (.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -13,7 +16,7 @@ async def _(event):
     input_str = event.pattern_match.group(1)
     if not os.path.isdir(Config.TMP_DOWNLOAD_DIRECTORY):
         os.makedirs(Config.TMP_DOWNLOAD_DIRECTORY)
-    catevent = await edit_or_reply(event , "Downloading to my local, for analysis  🙇")
+    catevent = await edit_or_reply(event, "Downloading to my local, for analysis  🙇")
     if event.reply_to_msg_id:
         previous_message = await event.get_reply_message()
         required_file_name = await borg.download_media(
@@ -69,10 +72,11 @@ async def _(event):
     else:
         await catevent.edit("Reply to a voice message, to get the relevant transcript.")
 
+
 CMD_HELP.update(
     {
         "stt": "**Plugin : **`stt`\
     \n\n**Syntax :** `.stt en` reply this to voice message\
     \n**Usage : **speech to text module"
     }
-)        
+)
