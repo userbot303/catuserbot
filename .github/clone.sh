@@ -38,7 +38,7 @@ else
     python ./.github/update.py
 fi
 
-FILE=/bin/
+FILE=/app/bin/
 
 if [ -d "$FILE" ] ; then
     echo "$FILE directory exists already."
