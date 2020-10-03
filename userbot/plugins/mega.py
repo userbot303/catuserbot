@@ -77,7 +77,7 @@ async def mega_downloader(megadl):
     except IndexError:
         await megadl.edit("`MEGA.nz link not found...`")
         return None
-    cmd = f"megadl {link}"
+    cmd = f"bin/megadown -q -m {link}"
     result = await subprocess_run(megadl, cmd)
     try:
         data = json.loads(result[0])
@@ -116,8 +116,8 @@ async def mega_downloader(megadl):
         estimated_total_time = round(downloader.get_eta())
         progress_str = "`{0}` | [{1}{2}] `{3}%`".format(
             status,
-            "".join(["⬤" for i in range(math.floor(percentage / 10))]),
-            "".join(["◯" for i in range(10 - math.floor(percentage / 10))]),
+            "".join(["▰" for i in range(math.floor(percentage / 10))]),
+            "".join(["▱" for i in range(10 - math.floor(percentage / 10))]),
             round(percentage, 2),
         )
         diff = time.time() - start
