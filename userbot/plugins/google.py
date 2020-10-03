@@ -5,7 +5,6 @@ from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
-
 from ..utils import admin_cmd, edit_or_reply, sudo_cmd
 from . import BOTLOG, BOTLOG_CHATID, CMD_HELP
 
@@ -33,7 +32,8 @@ async def gsearch(event):
         lim = int(10)
     catresult = ""
     for url in search(query, stop=lim):
-        catresult += f"👉{url}\n"
+        a = google_scrape(url)
+        catresult += f"👉[a]({url})\n\n"
     await catevent.edit(
         "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catresult,
         link_preview=False,
@@ -136,6 +136,10 @@ async def _(event):
         )
     await catevent.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
+def google_scrape(url):
+    thepage = (requests.get(url)).text
+    soup = BeautifulSoup(thepage, "html.parser")
+    return soup.title.text
 
 CMD_HELP.update(
     {
