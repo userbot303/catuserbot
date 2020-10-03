@@ -33,14 +33,14 @@ async def gsearch(event):
         lim = int(10)
     catresult = ""
     for url in search(query, stop=lim):
-        google_scrape(url)
-        catresult += f"👉[a]({url})\n\n"
+        a = google_scrape(url)
+        catresult += f"👉[{a}]({url})\n\n"
     await catevent.edit(
         "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catresult,
         link_preview=False,
     )
     if BOTLOG:
-        await q_event.client.send_message(
+        await event.client.send_message(
             BOTLOG_CHATID,
             "Google Search query `" + query + "` was executed successfully",
         )
@@ -136,7 +136,6 @@ async def _(event):
             **locals()
         )
     await catevent.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
-
 
 def google_scrape(url):
     thepage = (requests.get(url)).text
