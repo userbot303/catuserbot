@@ -1,15 +1,13 @@
 # reverse search and google search  plugin for cat
 import os
 from datetime import datetime
-from re import findall
 
 import requests
 from bs4 import BeautifulSoup
 from googlesearch import search
-from search_engine_parser import GoogleSearch
 
-from ..utils import admin_cmd, sudo_cmd , edit_or_reply
-from . import BOTLOG , BOTLOG_CHATID, CMD_HELP
+from ..utils import admin_cmd, edit_or_reply, sudo_cmd
+from . import BOTLOG, BOTLOG_CHATID, CMD_HELP
 
 
 @borg.on(admin_cmd(outgoing=True, pattern=r"gs(?: |$)(\d*)? ?(.*)"))
