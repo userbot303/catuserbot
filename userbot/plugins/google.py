@@ -35,7 +35,7 @@ async def gsearch(event):
     for url in search(query, stop=lim):
         catresult += f"👉{url}\n"
     await catevent.edit(
-        "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catreply,
+        "**Search Query:**\n`" + query + "`\n\n**Results:**\n" + catresult,
         link_preview=False,
     )
     if BOTLOG:
