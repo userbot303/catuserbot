@@ -137,6 +137,7 @@ async def _(event):
         )
     await catevent.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
+
 def google_scrape(url):
     thepage = (requests.get(url)).text
     soup = BeautifulSoup(thepage, "html.parser")
