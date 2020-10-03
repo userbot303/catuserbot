@@ -8,8 +8,8 @@ from bs4 import BeautifulSoup
 from googlesearch import search
 from search_engine_parser import GoogleSearch
 
-from ..utils import admin_cmd
-from .BOTLOG import BOTLOG_CHATID, CMD_HELP
+from ..utils import admin_cmd, sudo_cmd , edit_or_reply
+from . import BOTLOG , BOTLOG_CHATID, CMD_HELP
 
 
 @borg.on(admin_cmd(outgoing=True, pattern=r"gs(?: |$)(\d*)? ?(.*)"))
