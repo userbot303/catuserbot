@@ -38,4 +38,19 @@ else
     python ./.github/update.py
 fi
 
+FILE=/bin/
+
+if [ -d "$FILE" ] ; then
+    echo "$FILE directory exists already."
+else
+    mkdir bin
+    # downloading bins
+    wget -O bin/megadown https://raw.githubusercontent.com/adekmaulana/megadown/master/megadown
+    wget -O bin/cmrudl https://raw.githubusercontent.com/yshalsager/cmrudl.py/master/cmrudl.py
+    # changing bins permissions
+    chmod 755 bin/megadown
+    chmod 755 bin/cmrudl 
+    echo "Succesfully bins are added"
+fi
+
 python -m userbot
