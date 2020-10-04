@@ -94,11 +94,10 @@ CMD_HELP.update(
         "log_chats": "**Plugin : **`log_chats`\
         \n\n**Syntax : **`.save` :\
         \n**Usage : ** saves taged message in private group .\
-        \n\n**Syntax : **`.kickme`:\
-        \n**Usage : ** kicks you from the chat where you used this\
         \n\n**Syntax : **`.log`:\
         \n**Usage : **By default will log all private chat messages if you use .nolog and want to log again then you need to use this\
         \n\n**Syntax : **`.nolog`:\
-        \n**Usage : **to stops logging from a private chat "
+        \n**Usage : **to stops logging from a private chat \
+        \n\n**Note : **these resets after restart soon will try to add database so wont reset after restart"
     }
 )
