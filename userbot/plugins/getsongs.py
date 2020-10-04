@@ -16,8 +16,8 @@ from ..utils import admin_cmd, edit_or_reply, sudo_cmd
 from . import CMD_HELP, name_dl, runcmd, song_dl, thumb_dl, video_dl, yt_search
 
 
-@borg.on(admin_cmd(pattern="(song|song320)($| (.*))"))
-@borg.on(sudo_cmd(pattern="(song|song320)($| (.*))", allow_sudo=True))
+@bot.on(admin_cmd(pattern="(song|song320)($| (.*))"))
+@bot.on(sudo_cmd(pattern="(song|song320)($| (.*))", allow_sudo=True))
 async def _(event):
     reply_to_id = None
     if event.from_id != bot.uid:
@@ -90,8 +90,8 @@ async def _(event):
             os.remove(files)
 
 
-@borg.on(admin_cmd(pattern="vsong( (.*)|$)"))
-@borg.on(sudo_cmd(pattern="vsong( (.*)|$)", allow_sudo=True))
+@bot.on(admin_cmd(pattern="vsong( (.*)|$)"))
+@bot.on(sudo_cmd(pattern="vsong( (.*)|$)", allow_sudo=True))
 async def _(event):
     reply_to_id = None
     if event.from_id != bot.uid:
@@ -165,7 +165,7 @@ async def _(event):
 async def _(event):
     if event.fwd_from:
         return
-    event.pattern_match.group(1)
+    input_str = event.pattern_match.group(1)
     chat = "@SpotifyMusicDownloaderBot"
     catevent = await edit_or_reply(event, "`wi8..! I am finding your song....`")
     async with event.client.conversation(chat) as conv:
@@ -173,13 +173,14 @@ async def _(event):
             response = conv.wait_event(
                 events.NewMessage(incoming=True, from_users=752979930)
             )
-            await event.client.send_message(chat, link)
+            await event.client.send_message(chat, input_str)
             respond = await response
         except YouBlockedUserError:
             await catevent.edit("` unblock` @SpotifyMusicDownloaderBot `and try again`")
             return
         await event.delete()
         await event.client.forward_messages(event.chat_id, respond.message)
+        await event.client.send_read_acknowledge(conv.chat_id)
 
 
 CMD_HELP.update(
