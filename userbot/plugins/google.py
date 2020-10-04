@@ -108,10 +108,10 @@ async def _(event):
         img_size = img_size_div.find_all("div")
         end = datetime.now()
         ms = (end - start).seconds
-        OUTPUT_STR = "{img_size}\
-                     \n<b>Possible Related Search : </b> <a href="{prs_url}">{prs_text}</a>\
-                     \n<b>More Info : </b> Open this <a href="{the_location}">Link</a>\
-                     \n<i>fetched in {ms} seconds</i>".format(**locals())
+        OUTPUT_STR = """{img_size}
+<b>Possible Related Search : </b> <a href="{prs_url}">{prs_text}</a>\
+<b>More Info : </b> Open this <a href="{the_location}">Link</a>\
+<i>fetched in {ms} seconds</i>""".format(**locals())
     await catevent.edit(OUTPUT_STR, parse_mode="HTML", link_preview=False)
 
 
@@ -161,10 +161,7 @@ async def _(img):
             await catevent.edit("`Can't find this piece of shit.`")
             return
 
-        if img.pattern_match.group(1):
-            lim = img.pattern_match.group(1)
-        else:
-            lim = 3
+        lim = img.pattern_match.group(1) if img.pattern_match.group(1) else 3
         images = await scam(match, lim)
         yeet = []
         for i in images:
