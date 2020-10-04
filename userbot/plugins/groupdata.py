@@ -1,31 +1,27 @@
-import io
 import asyncio
+import io
+from asyncio import sleep
 from datetime import datetime
 from math import sqrt
-from telethon.utils import get_input_location
-from emoji import emojize
-from telethon.tl import functions
-from asyncio import sleep
 
-from telethon.errors import ChatAdminRequiredError, UserAdminInvalidError
+from emoji import emojize
 from telethon.errors import (
     ChannelInvalidError,
     ChannelPrivateError,
     ChannelPublicGroupNaError,
+    ChatAdminRequiredError,
+    UserAdminInvalidError,
 )
-from telethon.tl.functions.channels import (
-    GetFullChannelRequest,
-    GetParticipantsRequest,
-    LeaveChannelRequest,
-)
+from telethon.tl import functions
+from telethon.tl.functions.channels import GetFullChannelRequest, GetParticipantsRequest
 from telethon.tl.functions.messages import GetFullChatRequest, GetHistoryRequest
 from telethon.tl.types import (
     ChannelParticipantAdmin,
     ChannelParticipantCreator,
     ChannelParticipantsAdmins,
-    MessageActionChannelMigrateFrom,
     ChannelParticipantsKicked,
     ChatBannedRights,
+    MessageActionChannelMigrateFrom,
     UserStatusEmpty,
     UserStatusLastMonth,
     UserStatusLastWeek,
@@ -33,8 +29,9 @@ from telethon.tl.types import (
     UserStatusOnline,
     UserStatusRecently,
 )
+from telethon.utils import get_input_location
 
-from .. import CMD_HELP, BOTLOG , BOTLOG_CHATID
+from .. import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from ..utils import admin_cmd, edit_or_reply, sudo_cmd
 
 
@@ -45,7 +42,7 @@ async def kickme(leave):
 
 
 @bot.on(admin_cmd(pattern="get_admins ?(.*)"))
-@bot.on(sudo_cmd(pattern="get_admins ?(.*)",allow_sudo=True))
+@bot.on(sudo_cmd(pattern="get_admins ?(.*)", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -62,23 +59,25 @@ async def _(event):
         try:
             chat = await event.client.get_entity(input_str)
         except Exception as e:
-            await edit_or_reply(event ,str(e))
+            await edit_or_reply(event, str(e))
             return None
     else:
         chat = to_write_chat
         if not event.is_group:
-            await edit_or_reply(event , "Are you sure this is a group?")
+            await edit_or_reply(event, "Are you sure this is a group?")
             return
     try:
-        async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
-            if not x.deleted and isinstance(
-                x.participant, ChannelParticipantCreator
-            ):
+        async for x in event.client.iter_participants(
+            chat, filter=ChannelParticipantsAdmins
+        ):
+            if not x.deleted and isinstance(x.participant, ChannelParticipantCreator):
                 mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(
                     x.first_name, x.id, x.id
                 )
         mentions += "\n"
-        async for x in event.client.iter_participants(chat, filter=ChannelParticipantsAdmins):
+        async for x in event.client.iter_participants(
+            chat, filter=ChannelParticipantsAdmins
+        ):
             if x.deleted:
                 mentions += "\n `{}`".format(x.id)
             else:
@@ -87,7 +86,7 @@ async def _(event):
                         x.first_name, x.id, x.id
                     )
     except Exception as e:
-        mentions += ' ' + str(e) + '\n'
+        mentions += " " + str(e) + "\n"
     if reply_message:
         await reply_message.reply(mentions)
     else:
@@ -108,7 +107,7 @@ async def get_users(show):
     await show.get_input_chat()
     if not input_str:
         if not show.is_group:
-            await edit_or_reply(show ,"Are you sure this is a group?")
+            await edit_or_reply(show, "Are you sure this is a group?")
             return
     else:
         mentions_heading = "Users in {} Group: \n".format(input_str)
@@ -118,7 +117,7 @@ async def get_users(show):
         except Exception as e:
             await event.show(str(e))
             return None
-    catevent = await edit_or_reply(show ,"getting users list wait...")
+    catevent = await edit_or_reply(show, "getting users list wait...")
     try:
         if not show.pattern_match.group(1):
             async for user in show.client.iter_participants(show.chat_id):
@@ -157,14 +156,16 @@ async def get_users(show):
 @bot.on(admin_cmd(pattern="chatinfo(?: |$)(.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern="chatinfo(?: |$)(.*)", allow_sudo=True))
 async def info(event):
-    catevent = await edit_or_reply(event ,"`Analysing the chat...`")
-    chat = await get_chatinfo(event,catevent)
+    catevent = await edit_or_reply(event, "`Analysing the chat...`")
+    chat = await get_chatinfo(event, catevent)
     caption = await fetch_info(chat, event)
     try:
         await catevent.edit(caption, parse_mode="html")
     except Exception as e:
         if BOTLOG:
-            await event.client.send_message(BOTLOG_CHATID , f"**Error in chatinfo : **\n`{str(e)}`")
+            await event.client.send_message(
+                BOTLOG_CHATID, f"**Error in chatinfo : **\n`{str(e)}`"
+            )
         await catevent.edit("`An unexpected error has occurred.`")
 
 
@@ -340,6 +341,7 @@ None: {}""".format(
         )
     )
 
+
 # Ported by ©[NIKITA](t.me/kirito6969) and ©[EYEPATCH](t.me/NeoMatrix90)
 @borg.on(admin_cmd(pattern=f"zombies ?(.*)"))
 @borg.on(sudo_cmd(pattern="zombies ?(.*)", allow_sudo=True))
@@ -409,7 +411,7 @@ async def ban_user(chat_id, i, rights):
         return False, str(exc)
 
 
-async def get_chatinfo(event,catevent):
+async def get_chatinfo(event, catevent):
     chat = event.pattern_match.group(1)
     chat_info = None
     if chat:
