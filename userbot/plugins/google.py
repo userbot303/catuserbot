@@ -258,6 +258,5 @@ CMD_HELP.update(
         \n**Usage : **will google reverse search the image and shows you the result.\
         \n\n**Syntax : **`.reverse limit`\
         \n**Usage : **Reply to a pic/sticker to revers-search it on Google Images !!"
-        "
     }
 )
