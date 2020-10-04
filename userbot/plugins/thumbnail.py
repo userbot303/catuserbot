@@ -10,9 +10,10 @@ from hachoir.parser import createParser
 from PIL import Image
 
 from ..utils import admin_cmd, edit_or_reply, sudo_cmd
-from . import CMD_HELP, await take_screen_shot
+from . import CMD_HELP, await, take_screen_shot
 
 thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+
 
 @bot.on(admin_cmd(pattern="savethumb$"))
 @bot.on(sudo_cmd(pattern="savethumb$", allow_sudo=True))
@@ -31,8 +32,7 @@ async def _(event):
             if metadata and metadata.has("duration"):
                 duration = metadata.get("duration").seconds
             downloaded_file_name = await take_screen_shot(
-                downloaded_file_name,
-                duration
+                downloaded_file_name, duration
             )
         # https://stackoverflow.com/a/21669827/4723940
         Image.open(downloaded_file_name).convert("RGB").save(thumb_image_path, "JPEG")
