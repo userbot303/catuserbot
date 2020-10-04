@@ -682,6 +682,6 @@ CMD_HELP.update(
     \n\n**Syntax : **`.chatinfo or .chatinfo <username of group>`\
     \n**Usage : **Shows you the total information of the required chat.\
     \n\n**Syntax : **`.zombies`\
-    \n**Usage :** Searches for deleted accounts in a group. Use `.zombies clean` to remove deleted accounts from the group.\"
+    \n**Usage :** Searches for deleted accounts in a group. Use `.zombies clean` to remove deleted accounts from the group."
     }
 )
