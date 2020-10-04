@@ -18,7 +18,6 @@ python-dotenv
 emoji
 fonttools
 geopy
-gitpython
 glitch_this
 google-api-python-client
 google-auth-httplib2
@@ -28,7 +27,6 @@ gsearch
 gtts
 hachoir
 heroku3
-httplib2<0.16.0
 humanize
 jotquote
 justwatch
@@ -37,7 +35,6 @@ lottie
 lxml
 lyricsgenius
 nekos.py
-oauth2client
 patool
 Pillow
 programmingquotes
@@ -52,7 +49,6 @@ pylast
 PyLyrics
 pySmartDL
 python-barcode
-python-magic
 pytuneteller
 pytz
 qrcode
