@@ -14,8 +14,6 @@ import requests
 from bs4 import BeautifulSoup
 from PIL import Image
 
- errors_handler
-
 from ..utils import admin_cmd, edit_or_reply, sudo_cmd, errors_handler
 from . import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 
