@@ -1,9 +1,7 @@
 # Thumbnail Utilities ported from uniborg
 # credits @spechide
 
-import asyncio
 import os
-import time
 
 from hachoir.metadata import extractMetadata
 from hachoir.parser import createParser
