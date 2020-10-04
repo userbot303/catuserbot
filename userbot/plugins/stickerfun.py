@@ -8,12 +8,11 @@ import os
 import random
 import textwrap
 
-import pybase64
 from PIL import Image, ImageDraw, ImageFont
 from telethon.tl.types import InputMessagesFilterDocument
 
 from .. import CMD_HELP, bot
-from ..utils import admin_cmd, sudo_cmd,edit_or_reply
+from ..utils import admin_cmd, edit_or_reply, sudo_cmd
 from . import deEmojify, waifutxt
 
 # RegEx by https://t.me/c/1220993104/500653 ( @SnapDragon7410 )
@@ -30,11 +29,14 @@ async def waifu(animu):
         if animu.is_reply:
             text = (await animu.get_reply_message()).message
         else:
-            catevent = await edit_or_reply(animu ,"`You haven't written any article, Waifu is going away.`")
+            catevent = await edit_or_reply(
+                animu, "`You haven't written any article, Waifu is going away.`"
+            )
             return
     text = deEmojify(text)
     await catevent.delete()
     await waifutxt(text, animu.chat_id, reply_to_id, bot, borg)
+
 
 # 12 21 28 30
 
@@ -56,7 +58,7 @@ async def sticklet(event):
         reply_message = await event.get_reply_message()
         sticktext = reply_message.message
     elif not sticktext:
-        await edit_or_reply(event , "need something, hmm")
+        await edit_or_reply(event, "need something, hmm")
         return
     if event.reply_to_msg_id:
         reply_message = await event.get_reply_message()
