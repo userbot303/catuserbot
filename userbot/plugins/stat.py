@@ -100,6 +100,6 @@ def user_full_name(user):
 
 CMD_HELP.update({
     "stat":"**Plugin : **`stat`\
-        \n\n**Syntax : **`.stat`
-        \n**Usage : **Shows you the count of  your groups, channels, private chats...etc"
+    \n\n**Syntax : **`.stat`\
+    \n**Usage : **Shows you the count of  your groups, channels, private chats...etc"
 })
